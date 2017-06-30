@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CursorRecyclerAdapter.iml" filepath="$PROJECT_DIR$/CursorRecyclerAdapter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cursor-recycler-adapter/cursor-recycler-adapter.iml" filepath="$PROJECT_DIR$/cursor-recycler-adapter/cursor-recycler-adapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample_app/sample_app.iml" filepath="$PROJECT_DIR$/sample_app/sample_app.iml" />
     </modules>
   </component>

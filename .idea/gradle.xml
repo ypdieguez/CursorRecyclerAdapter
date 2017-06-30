@@ -9,7 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/lib" />
+            <option value="$PROJECT_DIR$/cursor-recycler-adapter" />
             <option value="$PROJECT_DIR$/sample_app" />
           </set>
         </option>

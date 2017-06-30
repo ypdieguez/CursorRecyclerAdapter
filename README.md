@@ -2,20 +2,16 @@
 Library containing an adapter that exposes data from a Cursor to a RecyclerView
 widget.
 
-# How to use
-1. Clone the project.
-2. Add the following snippets to your `settings.gradle` and `build.gradle` files:
+[ ![Download](https://api.bintray.com/packages/ypdieguez/maven/cursor-recycler-adapter/images/download.svg) ](https://bintray.com/ypdieguez/maven/cursor-recycler-adapter/_latestVersion)
 
-  ```gradle
-  // settings.gradle
-  include ':app', ':cursorrecycleradapter'
-  project (":cursorrecycleradapter").projectDir = new File("PATH_TO_CLONED_PROJECT/CursorRecyclerAdapter/lib")
+# How to use
+1. Add the following dependency to your `build.gradle` file:
+
+  ```gradle  
+    compile 'io.github.ypdieguez:cursor-recycler-adapter:1.0.0'
   ```
-  ```gradle
-  // build.gradle
-  compile project(":cursorrecycleradapter")
-  ```
-3. Create an adapter that extends from CursorRecyclerAdapter class, as shows below:
+
+2. Create an adapter that extends from CursorRecyclerAdapter class, as shows below:
 
   ```java
   import io.github.ypdieguez.cursorrecycleradapter.CursorRecyclerAdapter;
@@ -47,8 +43,7 @@ widget.
 
 **Notes:**
 * The cursor must include a column named "\_id" or this class will not work.
-* To get a better understanding of how to use the library, you can see the
-example application that is inside the project.
+* To get a better understanding of how to use the library, you can see the example application inside this project.
 
 # License
     Copyright (C) 2017 Yordan P. Dieguez <ypdieguez@tuta.io>

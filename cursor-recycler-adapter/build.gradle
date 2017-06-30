@@ -1,0 +1,197 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        minSdkVersion 9
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+//    publishNonDefault true    //Comment when the library is going to be published.
+}
+
+dependencies {
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'cursor-recycler-adapter'
+
+    publishedGroupId = 'io.github.ypdieguez'
+    libraryName = 'CursorRecyclerAdapter'
+    artifact = 'cursor-recycler-adapter'
+
+    libraryDescription = 'Library containing an adapter that exposes data from a Cursor to a RecyclerView widget.'
+
+    siteUrl = 'https://github.com/ypdieguez/CursorRecyclerAdapter'
+    gitUrl = 'https://github.com/ypdieguez/CursorRecyclerAdapter.git'
+    issuesUrl = 'https://github.com/ypdieguez/CursorRecyclerAdapter/issues'
+    githubRepository = 'ypdieguez/CursorRecyclerAdapter'
+    githubReadme = 'README.md'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'ypdieguez'
+    developerName = 'Yordan P. Dieguez'
+    developerEmail = 'ypdieguez@tuta.io'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+// Install
+group = publishedGroupId    // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            group = 'publishing'
+
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+            version libraryVersion
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+            inceptionYear '2017'
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+// Bintray
+version = libraryVersion
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    publish = true
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        issueTrackerUrl = issuesUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        labels = ['android', 'recyclerview', 'adapter', 'cursor']
+        publicDownloadNumbers = true
+        githubRepo = githubRepository
+        githubReleaseNotesFile = githubReadme
+        version {
+            name = libraryVersion
+            desc = libraryDescription
+            released = new Date()
+            vcsTag = libraryVersion
+            gpg {
+                sign = true
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+        }
+    }
+}
+
+// Android libraries
+// From https://stackoverflow.com/a/43007253
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.zip.ZipFile
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += configurations.compile
+    classpath += configurations.provided
+
+    afterEvaluate {
+        // Wait after evaluation to add the android classpath
+        // to avoid "buildToolsVersion is not specified" error
+        classpath += files(android.getBootClasspath())
+
+        // Process AAR dependencies
+        def aarDependencies = classpath.filter { it.name.endsWith('.aar') }
+        classpath -= aarDependencies
+        aarDependencies.each { aar ->
+            // Extract classes.jar from the AAR dependency, and add it to the javadoc classpath
+            def outputPath = "$buildDir/tmp/aarJar/${aar.name.replace('.aar', '.jar')}"
+            classpath += files(outputPath)
+
+            // Use a task so the actual extraction only happens before the javadoc task is run
+            dependsOn task(name: "extract ${aar.name}").doLast {
+                extractEntry(aar, 'classes.jar', outputPath)
+            }
+        }
+    }
+}
+
+// Utility method to extract only one entry in a zip file
+private def extractEntry(archive, entryPath, outputPath) {
+    if (!archive.exists()) {
+        throw new GradleException("archive $archive not found")
+    }
+
+    def zip = new ZipFile(archive)
+    zip.entries().each {
+        if (it.name == entryPath) {
+            def path = Paths.get(outputPath)
+            if (!Files.exists(path)) {
+                Files.createDirectories(path.getParent())
+                Files.copy(zip.getInputStream(it), path)
+            }
+        }
+    }
+    zip.close()
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
