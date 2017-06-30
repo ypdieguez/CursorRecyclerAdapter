@@ -4,7 +4,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'commons-collections:commons-collections:3.2.2'
+        classpath 'commons-lang:commons-lang:2.6'
+        classpath 'net.sf.ezmorph:ezmorph:1.0.6'
+        classpath 'commons-beanutils:commons-beanutils:1.8.3'
     }
 }
 

@@ -1,1 +1,1 @@
-include ':sample_app', ':lib'
+include ':sample_app', ':cursor-recycler-adapter'

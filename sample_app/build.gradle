@@ -21,8 +21,11 @@ android {
 }
 
 dependencies {
-    debugCompile project(path: ':lib', configuration: 'debug')
-    releaseCompile project(path: ':lib', configuration: 'release')
+    // Test the library.
+//    debugCompile project(path: ':lib', configuration: 'debug')
+//    releaseCompile project(path: ':lib', configuration: 'release')
+    // Publish the library.
+    compile project(':cursor-recycler-adapter')
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
