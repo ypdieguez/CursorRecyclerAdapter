@@ -1,3 +1,6 @@
+
+**Note:** Use cursor is obsolete
+
 # Overview
 Library containing an adapter that exposes data from a Cursor to a RecyclerView
 widget.
