@@ -1,14 +1,23 @@
 
-**Note:** Use cursor is obsolete
-
 # Overview
-Library containing an adapter that exposes data from a Cursor to a RecyclerView
-widget.
 
-[ ![Download](https://api.bintray.com/packages/ypdieguez/maven/cursor-recycler-adapter/images/download.svg) ](https://bintray.com/ypdieguez/maven/cursor-recycler-adapter/_latestVersion)
+Library containing an adapter that exposes data from a cursor to a RecyclerView widget.
+
+**Note:**  This library is currently unmaintained. The use of the cursor is obsolete.
 
 # How to use
-1. Add the following dependency to your `build.gradle` file:
+
+1. Add the following repository to your project `build.gradle` file:
+ 
+ ```gradle  
+    allprojects {
+      repositories {
+          maven {url 'https://jcenter.bintray.com'}
+      }
+    }
+  ```
+
+2. Add the following dependency to your app `build.gradle` file:
 
   ```gradle  
     compile 'io.github.ypdieguez:cursor-recycler-adapter:1.0.0'
@@ -45,11 +54,12 @@ widget.
   ```
 
 **Notes:**
+
 * The cursor must include a column named "\_id" or this class will not work.
-* To get a better understanding of how to use the library, you can see the example application inside this project.
+* To get a better understanding of how to use the library, you can see the example app inside of this project.
 
 # License
-    Copyright (C) 2017 Yordan P. Dieguez <ypdieguez@tuta.io>
+    Copyright (C) 2017 Yordan P. Dieguez <ypdieguez@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
